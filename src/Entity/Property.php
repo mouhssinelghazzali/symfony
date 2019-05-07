@@ -3,17 +3,19 @@
 namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
+ * @UniqueEntity("title")
  */
 class Property
 {
 
     const HEAT =[
-        1 => 'gaz',
-        2 => 'eau'
-
+        0 => 'gaz',
+        1 => 'eau'
     ];
    
     /**
@@ -36,6 +38,12 @@ class Property
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 10,
+     *      max = 400,
+     *      minMessage = "You must be at least {{ limit }} m² tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }} m² to enter"
+     * )
      */
     private $surface;
 
@@ -71,6 +79,7 @@ class Property
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("/^[0-9]{5}$/")
      */
     private $postal_code;
 
@@ -201,12 +210,12 @@ class Property
         return $this;
     }
 
-    public function getAddresse(): ?string
+    public function getAdresse(): ?string
     {
         return $this->addresse;
     }
 
-    public function setAddresse(string $addresse): self
+    public function setAdresse(string $addresse): self
     {
         $this->addresse = $addresse;
 
@@ -225,12 +234,12 @@ class Property
         return $this;
     }
 
-    public function getSold(): ?bool
+    public function getSolde(): ?bool
     {
         return $this->sold;
     }
 
-    public function setSold(bool $sold): self
+    public function setSolde(bool $sold): self
     {
         $this->sold = $sold;
 

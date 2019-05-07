@@ -1,0 +1,34 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+
+<div class="mt-4">
+
+
+
+{{ form_start(formArticle)}}
+
+
+
+{{form_row(formArticle.title ,{'attr':{'placeholder' : "Titre de l\'article"}})}}
+{{form_row(formArticle.category)}}
+{{form_row(formArticle.content)}}
+{{ form_row(formArticle._token) }}
+
+{{form_row(formArticle.image)}}
+<button type="submit" class="btn btn-primary">
+{% if editMode %}
+Enregister
+{% else %}
+Ajouté un article
+{% endif %}
+</button>
+    </div>
+
+
+
+{% endblock %}

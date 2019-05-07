@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+<div class="row mt-4">
+{% for article in articles %}
+  
+
+<div class="col-lg-4">
+<div class="card mb-3">
+  <img style="height: 200px; width: 100%; display: block;" src="{{article.image}}" alt="Card image">
+  <div class="card-body">
+  <center>
+    <a href="{{path('blog_show', {id: article.id})}}" class="card-link">{{article.title}}</a>
+</center>
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{article.content}}</p>
+  </div>
+
+  
+  <div class="card-footer text-muted">
+   {{article.createdAt | date('d/m/Y')}} à  {{article.createdAt | date('h:i')}}
+  </div>
+</div>
+</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SecurityController!{% endblock %}
+
+{% block body %}
+
+{{form_start(form)}}
+
+{{form_row(form.username ,{'attr':{'label' :"Nom",'placeholder' : "Name: "}})}}
+{{form_row(form.email ,{'attr':{'placeholder' : "Email"}})}}
+{{form_row(form.password ,{'attr':{'placeholder' : "Password"}})}}
+{{form_row(form.confirm_password ,{'attr':{'placeholder' : "Password"}})}}
+
+
+<button class="btn btn-success">Insciption</button>
+{{form_end(form)}}
+
+{% endblock %}
