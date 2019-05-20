@@ -293,11 +293,16 @@ input[type=password]:placeholder {
     <!-- Tabs Titles -->
 
     <!-- Icon -->
-  
+  {%  if error %}
+  <div class="alert alert-danger">
+
+  {{ error.messageKey | trans(error.messagedata. 'security') }}
+  </div>
+  {% endif %}
 
     <!-- Login Form -->
     <form action="{{path('security_login')}}"  method="post">
-      <input type="email" id="_username" class="fadeIn second" name="_username" placeholder="login">
+      <input type="email" id="_username" class="fadeIn second" name="_username" placeholder="login" value="{{ last_username }}">
       <input type="password" id="_password" class="fadeIn third" name="_password" placeholder="password">
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
