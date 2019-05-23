@@ -1,11 +1,49 @@
 {% extends 'base.html.twig' %}
 {% block title  'Les biens Annonce' %} 
 {% block body %}
+
+<div class="jumbotron">
 <div class="container">
+{{ form_start(form) }}
+<div class="form-row align-items-end">
+
+<div class="col">
+{{ form_row(form.minSurface) }}
+</div>
+
+<div class="col">
+{{ form_row(form.maxPrice) }}
+</div>
+
+<div class="col">
+<div class="form-group">
+<button class="btn btn-primary"> Rechercher </button>
+</div>
+</div>
+</div>
+{{ form_end(form) }}
+</div>
+</div>
+<div class="container mt-4">
   <div class="notification">
-    LA LISTES DES BIENS 
+  <h2 style="text-align:center;">  LA LISTES DES BIENS </h2>
   </div>
+ <div class="row">
+ {% for property in propertys %}
+  <div class="col-md-4">
+  {% include 'property/_property.html.twig' %}
+</div>
 
+{% endfor %}
+ </div>
 
+ <div class="pagination">
+    {{ knp_pagination_render(propertys) }}
+</div>
 </div>
 {% endblock %}
+
+
+
+
+	

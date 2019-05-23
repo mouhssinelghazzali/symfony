@@ -281,15 +281,8 @@ class Property
     }
     public function getSlug(): string
     {
-       //return (new Slugify())->slugify->slugify($this->title); 
-       return $this->slug;
-       
-
+      $slugify = new Slugify();
+      return( $slugify->slugify($this->title)); 
     }
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
+  
 }
