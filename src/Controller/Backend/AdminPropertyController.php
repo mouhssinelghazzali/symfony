@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+
 class AdminPropertyController extends AbstractController
 {
     /**
@@ -72,6 +74,12 @@ class AdminPropertyController extends AbstractController
        $form =  $this->createForm(PropertyType::class,$property);
        $form->handleRequest($request);
        if ($form->isSubmitted() && $form->isValid()) {
+
+        // if($property->getImageFile() instanceof UploadedFile)
+        // {
+        //     $cacheManager->remove($helper->asset($property,'imageFile'));
+
+        // }
            $this->em->flush();
            $this->addFlash('success','Bien modifié avec succee');
 

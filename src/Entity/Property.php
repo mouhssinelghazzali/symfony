@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Componen;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @UniqueEntity("title")
+ * @Vich\Uploadable
  */
 class Property
 {
@@ -25,6 +32,25 @@ class Property
      */
     
     private $id;
+
+    /**
+    * @var string|null
+    * @ORM\Column(type="string",length=225)
+     */
+
+    private $filename;
+
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="property_image", fileNameProperty="filename")
+     * @Assert\Image(
+     *          mimeTypes="image/jpeg"
+     * )
+     * @var File|null
+     */
+     private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -102,6 +128,11 @@ class Property
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Optionn", inversedBy="properties")
+     */
+    private $optionns;
 
     public function getId(): ?int
     {
@@ -222,6 +253,34 @@ class Property
         return $this;
     }
 
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFilename(?string $filename): Property
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): Property
+    {
+        $this->imageFile = $imageFile;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
     public function getPostalCode(): ?string
     {
         return $this->postal_code;
@@ -249,7 +308,9 @@ class Property
     public function __construct()
     {
         $this->created_at = new \DateTime();
+        $this->optionns = new ArrayCollection();
     }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
@@ -258,6 +319,17 @@ class Property
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+    public function getupdatedAt(): ?\DateTimeInterface
+    {
+        return $this->update_at;
+    }
+
+    public function setupdatedAt(\DateTimeInterface $update_at): self
+    {
+        $this->update_at = $update_at;
 
         return $this;
     }
@@ -283,6 +355,34 @@ class Property
     {
       $slugify = new Slugify();
       return( $slugify->slugify($this->title)); 
+    }
+
+    /**
+     * @return Collection|Optionn[]
+     */
+    public function getOptionn(): Collection
+    {
+        return $this->optionns;
+    }
+
+    public function addOptionn(Optionn $optionn): self
+    {
+        if (!$this->optionns->contains($optionn)) {
+            $this->optionns[] = $optionn;
+            $optionn->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOptionn(Optionn $optionn): self
+    {
+        if ($this->optionns->contains($optionn)) {
+            $this->optionns->removeElement($optionn);
+            $optionn->removeProperty($this);
+        }
+
+        return $this;
     }
   
 }
