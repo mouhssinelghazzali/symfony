@@ -9,6 +9,7 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use App\Entity\Property;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class  ImageCacheSuscriber implements EventSubscriber
 {
@@ -39,8 +40,14 @@ class  ImageCacheSuscriber implements EventSubscriber
     }
 
 
-    public function preRemove(PreFlushEventArgs $args)
+    public function preRemove(LifecycleEventArgs $args)
     {
+        $entity = $args->getEntity();
+        if(!$entity instanceof Property)
+        {
+            return;
+        }
+        $this->cacheManager->remove($this->UploaderHelper->asset($entity,'imageFile'));
 
     }
 

@@ -15,22 +15,22 @@ class PropertySearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // ->add('maxPrice',IntegerType::class,[
-            //     'required' => false,
-            //     'label' => false,
-            //     'attr' =>[
-            //         'placeholder' => 'Budget maximale'
-            //     ]
+            ->add('maxPrice',IntegerType::class,[
+                'required' => false,
+                'label' => false,
+                'attr' =>[
+                    'placeholder' => 'Budget maximale'
+                ]
 
-            // ])
-            // ->add('minSurface',IntegerType::class,[
-            //     'required' => false,
-            //     'label' => false,
-            //     'attr' =>[
-            //         'placeholder' => 'Surface minimale'
-            //     ]
+            ])
+            ->add('minSurface',IntegerType::class,[
+                'required' => false,
+                'label' => false,
+                'attr' =>[
+                    'placeholder' => 'Surface minimale'
+                ]
 
-            // ])
+            ])
             ->add('optionns', EntityType::class, [
                 'required' => false,
                 'label' => false,

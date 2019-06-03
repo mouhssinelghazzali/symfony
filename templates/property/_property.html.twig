@@ -2,10 +2,16 @@
 
 {% if property.filename %}
 
-<img  src="{{ vich_uploader_asset(property, 'imageFile')  | imagine_filter('thumb')     }}"   alt="card-img-top" style="width : 100%; height: auto;">
+<img  src="{{ vich_uploader_asset(property, 'imageFile')  | imagine_filter('thumb')}}"   alt="card-img-top" style="width : 100%; height: auto;">
+
 
 {% endif %}
+
+
+
+
 <div class="card-body">
+
 <h5 class="card-title"> <a 
 href="{{ path('property.show', {slug: property.slug,id: property.id }) }}"
 >
@@ -22,30 +28,3 @@ href="{{ path('property.show', {slug: property.slug,id: property.id }) }}"
 </div>
 </div>
 
-07,Ardèche - Privas
-08,Ardennes - Charleville-mézières
-09,Ariège - Foix
-10,Aube - Troyes
-11,Aude - Carcassonne
-12,Aveyron - Rodez
-13,Bouches-du-Rhône - Marseille
-14,Calvados - Caen
-15,Cantal - Aurillac
-16,Charente - Angoulême
-17,Charente-maritime - La rochelle
-18,Cher - Bourges
-19,Corrèze - Tulle
-2a,Corse-du-sud - Ajaccio
-2b,Haute-Corse - Bastia
-21,Côte-d'Or - Dijon
-22,Côtes-d'Armor - Saint-brieuc
-23,Creuse - Guéret
-24,Dordogne - Périgueux
-25,Doubs - Besançon
-26,Drôme - Valence
-27 - Eure - Évreux
-28 - Eure-et-loir - Chartres
-29 - Finistère - Quimper
-30 - Gard - Nîmes
-31 - Haute-garonne - Toulouse
-32 - Gers - Auch

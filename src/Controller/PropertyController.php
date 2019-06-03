@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\PropertySearch;
 use App\Form\PropertySearchType;
+use App\Entity\Contact;
+use App\Form\ContactType;
+use App\Notification\ContactNotification;
 
 class PropertyController extends AbstractController
 {
@@ -42,8 +45,9 @@ class PropertyController extends AbstractController
      * @param Property $property
      * @return Response
      */
-    public function show(Property $property,string $slug):Response
+    public function show(Property $property,string $slug ,Request $request,ContactNotification $notification):Response
     {
+        
         if ($property->getSlug() !== $slug) {
             return $this->redirectToRoute('property.show',
             [
@@ -52,8 +56,27 @@ class PropertyController extends AbstractController
             ],301
         );
         }
+        $contact =  new Contact();
+        $contact->setProperty($property);
+        $form = $this->createForm(ContactType::class,$contact);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            
+            $notification->notify($contact);
+            $this->addFlash('success','votre message a été bien envoyé ');
+        //     return $this->redirectToRoute('property.show',
+        //     [
+        //         'id' =>$property->id,
+        //         'slug' =>$property->getSlug()
+        //     ],301
+        // );
+        }
+
+
         return $this->render('property/show.html.twig',[
             'property' => $property,
+            'form' => $form->createView()
 
         ]);
 
