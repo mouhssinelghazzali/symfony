@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
-use App\Entity\Property;
+use App\Entity\Picture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
@@ -43,7 +43,7 @@ class  ImageCacheSuscriber implements EventSubscriber
     public function preRemove(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if(!$entity instanceof Property)
+        if(!$entity instanceof Picture)
         {
             return;
         }
@@ -54,7 +54,7 @@ class  ImageCacheSuscriber implements EventSubscriber
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
-        if(!$entity instanceof Property)
+        if(!$entity instanceof Picture)
         {
             return;
         }
@@ -62,8 +62,7 @@ class  ImageCacheSuscriber implements EventSubscriber
         {
             $this->cacheManager->remove($this->UploaderHelper->asset($entity,'imageFile'));
         }
-        dump($args->getObject());
-        dump($args->getEntity());
+        
 
     }
 

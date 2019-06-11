@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190527101322 extends AbstractMigration
+final class Version20190607113200 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -28,6 +28,6 @@ final class Version20190527101322 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE property DROP updated_at');
+        $this->addSql('ALTER TABLE property ADD filename VARCHAR(225) NOT NULL COLLATE utf8mb4_unicode_ci, CHANGE updated_at updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, CHANGE slug slug VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci');
     }
 }

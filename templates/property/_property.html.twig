@@ -1,9 +1,12 @@
+
 <div class="card mb-4">
 
-{% if property.filename %}
+{% if property.picture %}
 
-<img  src="{{ vich_uploader_asset(property, 'imageFile')  | imagine_filter('thumb')}}"   alt="card-img-top" style="width : 100%; height: auto;">
+<img  src="{{ vich_uploader_asset(property.picture, 'imageFile')  | imagine_filter('thumb')     }}"   alt="card-img-top" style="width : 100%; height: auto;">
+{% else %}
 
+<img  src="https://www.goafricaonline.com/uploads/media/cms_post/0001/01/cms_post_cover/398_564f28c66a053-immobilier-afrique.jpg"  | imagine_filter('thumb')   alt="card-img-top" style="width : 100%; height: auto;">
 
 {% endif %}
 

@@ -26,8 +26,9 @@ class PropertyType extends AbstractType
             ->add('heat', ChoiceType::class, [
                 'choices'  => $this->getChoices()
             ])
-            ->add('imageFile',FileType::class,[
-                'required' => false
+            ->add('pictureFiles', FileType::class, [
+                'required' => false,
+                'multiple' => true
             ])
             ->add('optionn', EntityType::class, [
                 'class' => Optionn::class,

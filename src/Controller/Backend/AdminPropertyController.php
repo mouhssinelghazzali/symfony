@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 class AdminPropertyController extends AbstractController
@@ -48,6 +48,11 @@ class AdminPropertyController extends AbstractController
         $form =  $this->createForm(PropertyType::class,$property);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            // var_dump($form['imageFile']->getData());
+            var_dump($request->files);
+            exit();
             $this->em->persist($property);
             $this->em->flush();
             $this->addFlash('success','Bien crée  avec succee');

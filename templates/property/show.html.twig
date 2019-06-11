@@ -20,10 +20,10 @@ Attention
 
 {% if property.filename %}
 
-<img  src="{{ vich_uploader_asset(property, 'imageFile')  | imagine_filter('thumb')     }}"   alt="card-img-top" style="width : 0%; height: auto;">
+<img  src="{{ vich_uploader_asset(property, 'imageFile')  | imagine_filter('thumb')     }}"   alt="card-img-top" style="width : 100%; height: auto;">
 {% else %}
 
-<img  src="https://rkckettlebell.de/images/profile/empty.jpg"   alt="card-img-top" style="width : 0%; height: auto;">
+<img  src="https://www.goafricaonline.com/uploads/media/cms_post/0001/01/cms_post_cover/398_564f28c66a053-immobilier-afrique.jpg "  | imagine_filter('thumb')   alt="card-img-top" style="width : 100%; height: auto;">
 
 {% endif %}
 </div>
@@ -33,8 +33,8 @@ Attention
 <div class="text-primary" style="font-size :4rem; font-weight:bold;">
 {{property.formatedPrice}} Dhs
 </div>
-<a href="#" class="btn btn-primary">Contactez l'agence</a>
-<div id="contactForm" class="mt-4">
+<a href="#" class="btn btn-primary" id="contactButton"  {% if  form.vars.submitted  %} style="display:none;" {% endif  %} >Contactez l'agence </a>
+<div id="contactForm" class="mt-4" {% if not form.vars.submitted  %} style="display:none;" {% endif  %}>
 {{ form_start(form) }}
 <div class="row">
 <div class="col">{{ form_row(form.firstname) }}</div>

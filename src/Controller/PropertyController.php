@@ -65,12 +65,12 @@ class PropertyController extends AbstractController
             
             $notification->notify($contact);
             $this->addFlash('success','votre message a été bien envoyé ');
-        //     return $this->redirectToRoute('property.show',
-        //     [
-        //         'id' =>$property->id,
-        //         'slug' =>$property->getSlug()
-        //     ],301
-        // );
+            return $this->redirectToRoute('property.show',
+            [
+                'id' =>$property->getid(),
+                'slug' =>$property->getSlug()
+            ],301
+        );
         }
 
 
