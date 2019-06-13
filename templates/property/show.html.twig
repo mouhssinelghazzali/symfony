@@ -1,98 +1,117 @@
 {% extends 'base.html.twig' %}
+
+{% block title property.title %}
+
 {% block body %}
+  <div class="jumbotron">
+    <div class="container">
 
-<div class="jumbotron">
+      {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+          {{ message }}
+        </div>
+      {% endfor %}
 
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
+      {% if not form.vars.valid %}
+        <div class="alert alert-danger">
+          Erreur je ne sais pas quoi
+        </div>
+      {% endif %}
+
+      <div class="row">
+        <div class="col-md-8">
+          <div class="swiper-container">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        
+        {% if property.pictures is empty %}
+              <img src="{{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height:auto;">
+            {% else %}
+              {% for picture in property.pictures %}
+           <div class="swiper-slide">   <div class="swiper-slide">   <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height:auto;"> </div></div>
+              
+              
+              {% endfor %}
+            {% endif %}
+
+   
+    <!-- If we need pagination -->
+    <div class="swiper-pagination"></div>
+
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+    <!-- If we need scrollbar -->
+    <div class="swiper-scrollbar"></div>
+
+            
+          </div>
+        </div>
+        </div>
+        <div class="col-md-4">
+          <h1>{{ property.title }}</h1>
+          <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
+          <div class="text-primary" style="font-size: 4rem;font-weight: bold;">{{ property.price }} €</div>
+          <a href="#" class="btn btn-primary" id="contactButton"{% if form.vars.submitted %} style="display: none;"{% endif %}>Contacter l'agence</a>
+          <div id="contactForm" class="mt-4"{% if not form.vars.submitted %} style="display: none;"{% endif %}>
+            {{ form_start(form) }}
+            <div class="row">
+              <div class="col">{{ form_row(form.firstname) }}</div>
+              <div class="col">{{ form_row(form.lastname) }}</div>
+            </div>
+            <div class="row">
+              <div class="col">{{ form_row(form.phone) }}</div>
+              <div class="col">{{ form_row(form.email) }}</div>
+            </div>
+            {{ form_rest(form) }}
+            <div class="form-group">
+              <button class="btn btn-primary">Envoyer</button>
+            </div>
+            {{ form_end(form) }}
+          </div>
+        </div>
+      </div>
     </div>
-{% endfor %}
-
-{% if not form.vars.valid %}
-<div class="alert alert-danger">
-Attention 
-</div>
-{% endif %}
+  </div>
+  <div class="container mt-4">
+    <p>
+      {{ property.description | nl2br }}
+    </p>
 
     <div class="row">
-    <div class="col-md-8">
-
-{% if property.filename %}
-
-<img  src="{{ vich_uploader_asset(property, 'imageFile')  | imagine_filter('thumb')     }}"   alt="card-img-top" style="width : 100%; height: auto;">
-{% else %}
-
-<img  src="https://www.goafricaonline.com/uploads/media/cms_post/0001/01/cms_post_cover/398_564f28c66a053-immobilier-afrique.jpg "  | imagine_filter('thumb')   alt="card-img-top" style="width : 100%; height: auto;">
-
-{% endif %}
-</div>
-<div class="col-md-4">
-<h1>{{property.title}}</h1>
-<h2>{{property.rooms}} piéces - {{property.surface}} m²</h2>
-<div class="text-primary" style="font-size :4rem; font-weight:bold;">
-{{property.formatedPrice}} Dhs
-</div>
-<a href="#" class="btn btn-primary" id="contactButton"  {% if  form.vars.submitted  %} style="display:none;" {% endif  %} >Contactez l'agence </a>
-<div id="contactForm" class="mt-4" {% if not form.vars.submitted  %} style="display:none;" {% endif  %}>
-{{ form_start(form) }}
-<div class="row">
-<div class="col">{{ form_row(form.firstname) }}</div>
-<div class="col">{{ form_row(form.lastname) }}</div>
-</div>
-
-<div class="row">
-<div class="col">{{ form_row(form.phone) }}</div>
-<div class="col">{{ form_row(form.email) }}</div>
-</div>
-{{ form_rest(form) }}
-
-
-<div class="form-group">
-<button  class="btn btn-primary ">Envoyez </button>
-</div>
-{{ form_end(form) }}
-
-</div>
-</div>
-
-</div>
-
-</div>
-<div class="container mt-4">
-
-<p>{{property.description | nl2br}}</p>
-<div class="row">
-<div class="col-md-8">
-<h2>Caractéristique</h2>
-<table class="table table-striped">
-<tr>
-    <td>Surface habitable </td>
-    <td>{{property.surface}}  m²</td>
-</tr>
-<tr>
-    <td>Piéces </td>
-    <td>{{property.rooms}} piéces </td>
-</tr>
-<tr>
-    <td>Chambres </td>
-    <td>{{property.bedrooms}} piéces </td>
-</tr>
-<tr>
-    <td>Etage </td>
-    <td>{{property.floor}} etage </td>
-</tr>
-<tr>
-    <td>Chauffage </td>
-   {# // <td>{{property.heatType}} piéces </td> #}
-    <td> piéces </td>
-</tr>
-</table>
-</div>
-
-<div class="col-md-4">
-<h2>Spécificités </h2>
-</div>
-</div>
-</div>
+      <div class="col-md-8">
+        <h2>Caractéristiques</h2>
+        <table class="table table-striped">
+          <tr>
+            <td>Surface habitable</td>
+            <td>{{ property.surface }} m²</td>
+          </tr>
+          <tr>
+            <td>Pièces</td>
+            <td>{{ property.rooms }}</td>
+          </tr>
+          <tr>
+            <td>Chambres</td>
+            <td>{{ property.bedrooms }}</td>
+          </tr>
+          <tr>
+            <td>Etage</td>
+            <td>{{ property.floor }}</td>
+          </tr>
+          <tr>
+            <td>Chauffage</td>
+            <td>{{ property.heatType }}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-4">
+        <h2>Spécificités</h2>
+        
+      </div>
+    </div>
+    <div id="map" style="width: 100%; height: 400px" data-lat="{{ property.lat }}" data-lng="{{ property.lng }}"></div>
+  </div>
 {% endblock %}
+

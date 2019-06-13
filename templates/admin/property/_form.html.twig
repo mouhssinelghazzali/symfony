@@ -12,7 +12,6 @@
       {% for picture in property.pictures %}
         <div class="col" style="width: 100px; flex: none; margin: 5px;">
           <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb') }}" width="100" alt="">
-          <a href="{{ path('admin.picture.delete', {id: picture.id}) }}" class="btn btn-danger" data-delete data-token="{{ csrf_token('delete' ~ picture.id) }}">Supprimer</a>
         </div>
       {% endfor %}
     </div>

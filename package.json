@@ -18,7 +18,11 @@
         "babel-loader": "^8.0.6",
         "css-loader": "^2.1.1",
         "jquery": "^3.4.1",
+        "leaflet": "^1.5.1",
         "mjml": "^4.4.0-beta.2",
-        "select2": "^4.0.7"
+        "mjml-carousel": "^4.4.0-beta.2",
+        "places.js": "^1.16.4",
+        "select2": "^4.0.7",
+        "swiper": "^4.5.0"
     }
 }

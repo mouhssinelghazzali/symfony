@@ -3,14 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\Property;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Query;
 use App\Entity\PropertySearch;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Property|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Property|null find(Property[]$id, $lockMode = null, $lockVersion = null)
  * @method Property|null findOneBy(array $criteria, array $orderBy = null)
  * @method Property[]    findAll()
  * @method Property[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
@@ -23,59 +23,67 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Query
-    * 
-    */
-    public function FindAllVisibleQuery(PropertySearch $search): Query
+     * @return Query
+     */
+    public function findAllVisibleQuery(PropertySearch $search): Query
     {
-        $query =  $this->FindVisibleQuery();
+        $query = $this->findVisibleQuery();
 
-        if ($search->getMaxPrice())
-        {
+        if ($search->getMaxPrice()) {
             $query = $query
-                        ->andWhere('p.price < :maxprice')
-                        ->setParameter('maxprice',$search->getMaxPrice());
-        }
-        if ($search->getMinSurface())
-        {
-            $query = $query
-                        ->andWhere('p.surface < :minsurface')
-                        ->setParameter('minsurface',$search->getMinSurface());
+                ->andWhere('p.price <= :maxprice')
+                ->setParameter('maxprice', $search->getMaxPrice());
         }
 
-        if ($search->getOptionns()->count() > 0) {
-            foreach ($search->getOptionns() as $k => $optionn) {
+        if ($search->getMinSurface()) {
+            $query = $query
+                ->andWhere('p.surface >= :minsurface')
+                ->setParameter('minsurface', $search->getMinSurface());
+        }
+
+        if ($search->getLat() && $search->getLng() && $search->getDistance()) {
+            $query = $query
+                ->select('p')
+                ->andWhere('(6353 * 2 * ASIN(SQRT( POWER(SIN((p.lat - :lat) *  pi()/180 / 2), 2) +COS(p.lat * pi()/180) * COS(:lat * pi()/180) * POWER(SIN((p.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
+                ->setParameter('lng', $search->getLng())
+                ->setParameter('lat', $search->getLat())
+                ->setParameter('distance', $search->getDistance());
+        }
+
+        if ($search->getOptions()->count() > 0) {
+            $k = 0;
+            foreach($search->getOptions() as $option) {
+                $k++;
                 $query = $query
-                            ->andWhere(":optionn MEMBER OF p.optionns")
-                            ->setParameter("optionn", $optionn);
+                    ->andWhere(":option$k MEMBER OF p.options")
+                    ->setParameter("option$k", $option);
             }
         }
-                     return $query->getQuery();
 
+        return $query->getQuery();
     }
+
     /**
-    * @return Property[]
-    * 
-    */
-    public function FindLatest(): array
+     * @return Property[]
+     */
+    public function findLatest(): array
     {
-        return $this->FindVisibleQuery()
-        ->setMaxResults(4)
-        ->getQuery()
-        ->getResult();
-
+        return $this->findVisibleQuery()
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
     }
 
-    private function FindVisibleQuery(): QueryBuilder
+    private function findVisibleQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
-        ->where('p.sold = false' );
-
+            ->where('p.sold = false');
     }
 
-    // /**
-    //  * @return Property[] Returns an array of Property objects
-    //  */
+
+//    /**
+//     * @return Property[] Returns an array of Property objects
+//     */
     /*
     public function findByExampleField($value)
     {

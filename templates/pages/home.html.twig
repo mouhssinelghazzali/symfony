@@ -1,43 +1,21 @@
 {% extends 'base.html.twig' %}
+
+{% block title 'Agence lorem ipsum' %}
+
 {% block body %}
-
-
-
-
-<div class="container  mt-4 " >
-    <center>
-    <div class="card-group">
-        {% for property in properties %}
-        
-  <div class="card px-2">
-    <img class="card-img-top" data-src="holder.js/100px180/" alt="100%x180" src="http://www.agencephotos.com/wp-content/uploads/2018/05/photo-architecture-interieur.jpg">
-    <div class="card-body">
-        <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title"><a 
-        href="{{ path('property.show', {slug: property.slug,id: property.id }) }}"
-    
-    >{{property.slug}}</a></h5>
-    <p class="card-text">{{property.description}}</p>
-
-
-<h3 class="text-primary">{{property.getFormatedPrice }} <span>DHS</span></h3>
-
- 
-
-        <a href="#" class="btn btn-primary">Afficher</a>
-
-  
- 
+  <div class="jumbotron text-center">
+    <h1>Agence lorem ipsum</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda aut cumque dolore error expedita itaque iure iusto magni, molestiae numquam omnis provident quae repellat sint soluta tempora unde voluptate voluptatibus.</p>
   </div>
-</div>
+
+  <div class="container">
+    <h2>Les derniers biens</h2>
+    <div class="row flex">
+      {% for property in properties %}
+        <div class="col-3">
+          {% include 'property/_property.html.twig' %}
+        </div>
+      {% endfor %}
     </div>
-  
   </div>
-
-  {% endfor %}
-</div>
-</center>
-</div>
-
 {% endblock %}

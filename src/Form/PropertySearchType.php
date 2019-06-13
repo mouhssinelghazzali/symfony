@@ -8,6 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
 use App\Entity\Optionn;
 
 class PropertySearchType extends AbstractType
@@ -31,13 +34,17 @@ class PropertySearchType extends AbstractType
                 ]
 
             ])
-            ->add('optionns', EntityType::class, [
-                'required' => false,
+            
+            ->add('distance', ChoiceType::class, [
                 'label' => false,
-                'class' => Optionn::class,
-                'choice_label' => 'name',
-                'multiple' => true,
+                'required' => false,
+                'choices' => [
+                    '10 km' => 10,
+                    '1000 km' => 1000
+                ]
             ])
+            ->add('lat', HiddenType::class)
+            ->add('lng', HiddenType::class)
         ;
     }
 
